@@ -2,6 +2,22 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer components {
+  .adjustButton {
+    @apply w-[44px] h-[44px] !rounded-full flex items-center justify-center !border-[#d8d8d8];
+  }
+
+  .quantityInput {
+    @apply absolute left-2 w-[70%] my-auto h-[40px] text-center text-[#333] text-sm font-semibold focus:outline-none ml-2.5 border-y border-[#d8d8d8];
+  }
+
+  input[type="number"]::-webkit-inner-spin-button,
+  input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+}
+
 @layer base {
   :root {
     --background: 0 0% 100%;
