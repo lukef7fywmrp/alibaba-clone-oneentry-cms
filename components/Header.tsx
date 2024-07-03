@@ -1,23 +1,21 @@
+import getSession from "@/actions/getSession";
 import logoBrandColor from "@/app/logoBrandColor.png";
-import Image from "next/image";
 import {
   HoverCard,
   HoverCardContent,
   HoverCardTrigger,
 } from "@/components/ui/hover-card";
 import {
-  ClipboardList,
-  Globe,
   ListOrderedIcon,
   MessageSquareText,
   ShoppingCart,
   User,
 } from "lucide-react";
-import { Button } from "./ui/button";
+import Image from "next/image";
 import Link from "next/link";
-import SignupButton from "./SignupButton";
-import getSession from "@/actions/getSession";
 import SignoutButton from "./SignoutButton";
+import SignupButton from "./SignupButton";
+import { Button } from "./ui/button";
 
 async function Header() {
   const session = await getSession();
