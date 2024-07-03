@@ -1,6 +1,5 @@
 "use server";
 
-import getAPI from "@/oneentry";
 import api from "@/oneentry";
 import { cookies } from "next/headers";
 
@@ -13,16 +12,17 @@ interface IErroredResponse {
 
 export default async function logoutAction(prevState: any, formData: FormData) {
   const refreshToken = cookies().get("refresh_token")?.value;
+  const accessToken = cookies().get("access_token")?.value;
 
-  if (!refreshToken) {
+  if (!refreshToken || !accessToken) {
     return {
       message: "You are not logged in.",
     };
   }
 
   try {
-    const logoutRes = await getAPI(refreshToken).AuthProvider.logout(
-      "email",
+    const logoutRes = await api.AuthProvider.setAccessToken(accessToken).logout(
+      "signup",
       refreshToken
     );
 
