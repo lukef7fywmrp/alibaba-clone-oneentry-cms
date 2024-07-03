@@ -1,7 +1,6 @@
 "use server";
 
 import { IErroredResponse } from "@/lib/definitions";
-import getAPI from "@/oneentry";
 import api from "@/oneentry";
 import { redirect } from "next/navigation";
 import { ISignUpData } from "oneentry/dist/auth-provider/authProvidersInterfaces";
@@ -54,7 +53,7 @@ export default async function signupAction(prevState: any, formData: FormData) {
           type: "string",
         },
         {
-          marker: "confirmPassword",
+          marker: "confirmpassword",
           value: confirmPassword,
           type: "string",
         },
@@ -66,13 +65,7 @@ export default async function signupAction(prevState: any, formData: FormData) {
       },
     };
 
-    const formDataRes = await getAPI().AuthProvider.signUp(
-      "signup",
-      data,
-      "en_US"
-    );
-
-    console.log("formDataRes", formDataRes);
+    const formDataRes = await api.AuthProvider.signUp("signup", data);
 
     if (!formDataRes?.id) {
       const error = formDataRes as unknown as IErroredResponse;
