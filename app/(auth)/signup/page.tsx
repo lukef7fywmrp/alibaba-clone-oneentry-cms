@@ -1,8 +1,8 @@
 import SignupForm from "@/components/SignupForm";
-import getAPI from "@/oneentry";
+import api from "@/oneentry";
 
 async function SignupPage() {
-  const signupForm = await getAPI().Forms.getFormByMarker("signup", "en_US");
+  const signupForm = await api.Forms.getFormByMarker("signup");
 
   return <SignupForm formEntity={signupForm} />;
 }
