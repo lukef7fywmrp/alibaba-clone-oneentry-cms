@@ -1,8 +1,8 @@
-import getAPI from "@/oneentry";
+import api from "@/oneentry";
 import CatalogPageCard from "./CatalogPageCard";
 
 async function CatalogPages() {
-  const pages = await getAPI().Pages.getRootPages("en_US");
+  const pages = await api.Pages.getRootPages("en_US");
   // FIXME: Below API is returning 405 Method Not Allowed
   // const pages = await api.Pages.getCatalogPages("en_US");
   const filteredPages = pages.filter((page) => page.type === "forCatalogPages");
