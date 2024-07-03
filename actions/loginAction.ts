@@ -5,7 +5,6 @@ import api from "@/oneentry";
 import { redirect } from "next/navigation";
 import { IAuthPostBody } from "oneentry/dist/auth-provider/authProvidersInterfaces";
 import { cookies } from "next/headers";
-import getAPI from "@/oneentry";
 
 export default async function loginAction(prevState: any, formData: FormData) {
   const account = formData.get("account") as string;
@@ -23,7 +22,7 @@ export default async function loginAction(prevState: any, formData: FormData) {
     const data: IAuthPostBody = {
       authData: [
         {
-          marker: "account",
+          marker: "email",
           value: account,
         },
         {
@@ -33,7 +32,7 @@ export default async function loginAction(prevState: any, formData: FormData) {
       ],
     };
 
-    const authRes = await getAPI().AuthProvider.auth("login", data);
+    const authRes = await api.AuthProvider.auth("signup", data);
 
     if (!authRes?.userIdentifier) {
       const error = authRes as unknown as IErroredResponse;
