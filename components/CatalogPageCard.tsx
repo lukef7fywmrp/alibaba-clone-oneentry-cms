@@ -1,12 +1,12 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import getAPI from "@/oneentry";
+import api from "@/oneentry";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { IPagesEntity } from "oneentry/dist/pages/pagesInterfaces";
 import ProductCard from "./ProductCard";
 
 async function CatalogPageCard({ page }: { page: IPagesEntity }) {
-  const products = await getAPI().Products.getProductsByPageUrl(
+  const products = await api.Products.getProductsByPageUrl(
     page.pageUrl,
     undefined,
     "en_US",
