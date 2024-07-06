@@ -4,14 +4,15 @@ import { useCartStore } from "@/store/cartStore";
 import Image from "next/image";
 import Link from "next/link";
 import QuantitySelector from "./QuantitySelector";
+import formatCurrency from "@/lib/formatCurrency";
 
 function ItemList() {
   const items = useCartStore((state) => state.items);
 
   return (
-    <ul>
+    <ul className="divide-y">
       {items.map((item, i) => (
-        <li key={item.id} className="border-b p-6 space-y-6">
+        <li key={item.id} className="p-6 space-y-6">
           <div
             dangerouslySetInnerHTML={{
               __html:
@@ -39,6 +40,11 @@ function ItemList() {
                   __html: item.name!,
                 }}
               />
+              {item.price && (
+                <p className="text-lg font-semibold">
+                  ${formatCurrency(parseFloat(item.price))}
+                </p>
+              )}
               <QuantitySelector item={item} />
             </div>
           </div>
