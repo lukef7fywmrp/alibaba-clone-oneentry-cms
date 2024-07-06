@@ -14,54 +14,54 @@ interface CartState {
   items: CartItem[];
   addItem: (item: CartItem) => void;
   removeItem: (id: number) => void;
+  getItemSubtotal: () => number;
 }
 
 export const useCartStore = create(
   persist<CartState>(
-    (set) => ({
+    (set, get) => ({
       items: [],
-      addItem: (newItem) =>
+      addItem: (newItem) => {
         set((state) => {
           const itemIndex = state.items.findIndex(
             (item) => item.id === newItem.id
           );
-          if (itemIndex !== -1) {
-            // Item exists, update its quantity
-            const updatedItems = state.items.map((item, index) =>
-              index === itemIndex
-                ? { ...item, quantity: item.quantity + 1 }
-                : item
-            );
-            return { items: updatedItems };
-          } else {
-            // Item does not exist, add new item with quantity 1
-            return { items: [...state.items, { ...newItem, quantity: 1 }] };
-          }
-        }),
-      removeItem: (id) =>
+          // If the item is not in the cart, add it with a quantity of 1
+          const updatedItems =
+            itemIndex === -1
+              ? [...state.items, { ...newItem, quantity: 1 }]
+              : state.items.map((item, index) =>
+                  index === itemIndex
+                    ? { ...item, quantity: item.quantity + 1 }
+                    : item
+                );
+          return { items: updatedItems };
+        });
+      },
+      removeItem: (id) => {
         set((state) => {
           const itemIndex = state.items.findIndex((item) => item.id === id);
-          if (itemIndex !== -1) {
-            // Item exists
-            const item = state.items[itemIndex];
-            if (item.quantity > 1) {
-              // Decrease quantity by 1 if more than 1
-              const updatedItems = state.items.map((item, index) =>
-                index === itemIndex
-                  ? { ...item, quantity: item.quantity - 1 }
-                  : item
-              );
-              return { items: updatedItems };
-            } else {
-              // Remove item if quantity is 1
-              const updatedItems = state.items.filter(
-                (item, index) => index !== itemIndex
-              );
-              return { items: updatedItems };
-            }
-          }
-          return state; // Return state unchanged if item not found
-        }),
+          if (itemIndex === -1) return state; // Item not found, return current state without changes
+
+          // If the item quantity is greater than 1, decrement it by 1, otherwise remove it from the cart
+          const updatedItems =
+            state.items[itemIndex].quantity > 1
+              ? state.items.map((item, index) =>
+                  index === itemIndex
+                    ? { ...item, quantity: item.quantity - 1 }
+                    : item
+                )
+              : state.items.filter((_, index) => index !== itemIndex);
+          return { items: updatedItems };
+        });
+      },
+      getItemSubtotal: () => {
+        const items = get().items;
+        return items.reduce(
+          (acc, item) => acc + parseFloat(item.price || "0") * item.quantity,
+          0
+        );
+      },
     }),
     { name: "cart-storage" }
   )
