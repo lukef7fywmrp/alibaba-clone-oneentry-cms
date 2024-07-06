@@ -1,45 +1,10 @@
-// import { defineOneEntry } from "oneentry";
-// import getRefreshToken from "./actions/getRefreshToken";
-// import setRefreshToken from "./actions/setRefreshToken";
-
-// const url = process.env.API_URL;
-
-// if (!url) {
-//   throw new Error("API_URL is not defined");
-// }
-
-// let refreshToken: string | undefined;
-
-// async function initializeOrRefreshToken() {
-//   try {
-//     const newToken = await getRefreshToken();
-//     refreshToken = newToken;
-//   } catch (error) {
-//     console.error("Failed to refresh token:", error);
-//   }
-// }
-
-// initializeOrRefreshToken();
-
-// const api = defineOneEntry(url, {
-//   token: process.env.API_TOKEN,
-//   langCode: "en_US",
-//   auth: {
-//     refreshToken: refreshToken,
-//     customAuth: false,
-//     saveFunction: (token) => {
-//       setRefreshToken(token);
-//     },
-//   },
-// });
-
-// export default api;
-
 import { defineOneEntry } from "oneentry";
 import getRefreshToken from "./actions/getRefreshToken";
 import setRefreshToken from "./actions/setRefreshToken";
 
-let apiInstance: ReturnType<typeof defineOneEntry> | null = null;
+export type ApiInstanceType = ReturnType<typeof defineOneEntry> | null;
+
+let apiInstance: ApiInstanceType = null;
 
 async function initializeApi(): Promise<ReturnType<typeof defineOneEntry>> {
   const url = process.env.API_URL;
@@ -64,7 +29,6 @@ async function initializeApi(): Promise<ReturnType<typeof defineOneEntry>> {
         customAuth: false,
         saveFunction: async (token: string) => {
           await setRefreshToken(token);
-          // Optionally, refresh the API client here if the token changes and it affects the client
         },
       },
     });
@@ -73,7 +37,6 @@ async function initializeApi(): Promise<ReturnType<typeof defineOneEntry>> {
   return apiInstance;
 }
 
-// Export a function that ensures the API is initialized once and reused
 export async function getApiInstance() {
   if (!apiInstance) {
     await initializeApi();
