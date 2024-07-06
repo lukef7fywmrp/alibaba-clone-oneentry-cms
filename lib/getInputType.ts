@@ -1,10 +1,10 @@
-import { attributeTypeToInputType } from "./definitions";
+import { dataTypeToInputTypeMap } from "./definitions";
 
 const getInputType = (attributeType: string, marker: string) =>
   marker.includes("password")
     ? "password"
     : marker.includes("email")
     ? "email"
-    : attributeTypeToInputType[attributeType];
+    : dataTypeToInputTypeMap[attributeType];
 
 export default getInputType;
