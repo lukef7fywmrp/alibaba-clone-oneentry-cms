@@ -1,11 +1,11 @@
-import SignupForm from "@/components/SignupForm";
+import DynamicSignupForm from "@/components/DynamicSignupForm";
 import { getApiInstance } from "@/oneentry";
 
 async function SignupPage() {
   const apiInstance = await getApiInstance();
   const signupForm = await apiInstance?.Forms.getFormByMarker("signup");
 
-  return <SignupForm formEntity={signupForm} />;
+  return <DynamicSignupForm formEntity={signupForm} />;
 }
 
 export default SignupPage;
