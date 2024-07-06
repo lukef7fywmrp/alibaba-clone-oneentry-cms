@@ -1,6 +1,6 @@
 import banner from "@/app/banner.png";
 import CatalogPageGrid from "@/components/CatalogPageGrid";
-import SpinnerLoader from "@/components/StaggeredFadeLoader";
+import SpinnerLoader from "@/components/SpinnerLoader";
 import TabSelector from "@/components/TabSelector";
 import Image from "next/image";
 import { Suspense } from "react";
