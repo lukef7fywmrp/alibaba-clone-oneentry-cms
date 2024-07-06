@@ -1,21 +1,19 @@
-import getSession from "@/actions/getSession";
-import Image from "next/image";
 import banner from "@/app/banner.png";
-import CatalogPages from "@/components/CatalogPages";
-import CatalogHeader from "@/components/CatalogHeader";
+import CatalogPageGrid from "@/components/CatalogPageGrid";
+import SpinnerLoader from "@/components/StaggeredFadeLoader";
+import TabSelector from "@/components/TabSelector";
+import Image from "next/image";
 import { Suspense } from "react";
 
 export default async function Home() {
-  const session = await getSession();
-
   return (
-    <main className="bg-[#F2F2F2] min-h-screen">
+    <main className="bg-white min-h-screen space-y-8">
       <Image src={banner} alt="Banner" className="h-[220px] object-cover" />
 
       <div className="space-y-4 max-w-6xl mx-auto">
-        <CatalogHeader />
-        <Suspense fallback={<div>Loading...</div>}>
-          <CatalogPages />
+        <TabSelector />
+        <Suspense fallback={<SpinnerLoader />}>
+          <CatalogPageGrid />
         </Suspense>
       </div>
     </main>
