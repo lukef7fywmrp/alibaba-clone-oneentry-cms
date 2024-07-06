@@ -7,7 +7,7 @@ function DetailPage({ params: { slug } }: { params: { slug: string } }) {
       <h1 className="font-bold text-[28px] text-[#222]">
         Top-ranking Products
       </h1>
-      <Banner />
+      {/* <Banner /> */}
       <ProductList slug={slug} />
     </main>
   );
