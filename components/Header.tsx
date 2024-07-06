@@ -1,4 +1,3 @@
-import getSession from "@/actions/getSession";
 import logoBrandColor from "@/app/logoBrandColor.png";
 import {
   HoverCard,
@@ -13,12 +12,13 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import SignoutButton from "./SignoutButton";
 import SignupButton from "./SignupButton";
 import { Button } from "./ui/button";
+import LogoutForm from "./LogoutForm";
+import fetchUserSession from "@/actions/fetchUserSession";
 
 async function Header() {
-  const session = await getSession();
+  const user = await fetchUserSession();
   return (
     <header className="w-full bg-white py-4 px-5 md:px-8 flex items-center justify-between text-[#333]">
       <Link href={"/"}>
@@ -31,7 +31,7 @@ async function Header() {
 
       <div className="">
         <div className="flex items-center space-x-8">
-          {!session ? (
+          {!user ? (
             <>
               <HoverCard openDelay={0} closeDelay={0}>
                 <HoverCardTrigger className="flex items-center text-[#333] text-sm cursor-pointer gap-x-1.5">
@@ -100,7 +100,7 @@ async function Header() {
                   </div>
                   <hr className="border-[#ddd] w-[90%] mx-auto" />
 
-                  <SignoutButton />
+                  <LogoutForm />
                 </HoverCardContent>
               </HoverCard>
               <HoverCard openDelay={0} closeDelay={0}>
