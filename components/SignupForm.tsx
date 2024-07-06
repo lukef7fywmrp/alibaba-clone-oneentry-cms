@@ -12,12 +12,12 @@ const initialState = {
   message: "",
 };
 
-function SignupForm({ formEntity }: { formEntity: IFormsEntity }) {
+function SignupForm({ formEntity }: { formEntity: IFormsEntity | undefined }) {
   const [state, formAction] = useFormState(signupAction, initialState);
 
   return (
     <form action={formAction} className="space-y-4 w-full -mt-20">
-      {formEntity.attributes.map((attribute: IAttributes) => (
+      {formEntity?.attributes.map((attribute: IAttributes) => (
         <div key={attribute.position} className="flex items-center space-x-2">
           <label
             htmlFor={attribute.marker}

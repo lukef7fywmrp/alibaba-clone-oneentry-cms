@@ -1,11 +1,12 @@
 import ProductSummaryCard from "@/components/ProductSummaryCard";
 import { Product } from "@/lib/definitions";
-import api from "@/oneentry";
+import { getApiInstance } from "@/oneentry";
 import { Star } from "lucide-react";
 import Image from "next/image";
 
 async function ProductPage({ params: { id } }: { params: { id: string } }) {
-  const product = (await api.Products.getProductById(
+  const apiInstance = await getApiInstance();
+  const product = (await apiInstance?.Products.getProductById(
     parseInt(id)
   )) as unknown as Product;
 

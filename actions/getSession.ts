@@ -1,6 +1,6 @@
 "use server";
 
-import api from "@/oneentry";
+import { getApiInstance } from "@/oneentry";
 import { cookies } from "next/headers";
 
 interface IErroredResponse {
@@ -11,13 +11,17 @@ interface IErroredResponse {
 }
 
 export default async function getSession() {
+  const apiInstance = await getApiInstance();
+
   try {
     const access_token = cookies().get("access_token")?.value;
 
     if (!access_token) {
       return null;
     }
-    const user = await api.Users.setAccessToken(access_token).getUser();
+    const user = await apiInstance?.Users.setAccessToken(
+      access_token
+    ).getUser();
 
     if (!user?.id) {
       const error = user as unknown as IErroredResponse;

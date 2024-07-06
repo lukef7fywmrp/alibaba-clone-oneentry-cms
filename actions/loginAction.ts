@@ -1,14 +1,15 @@
 "use server";
 
 import { IErroredResponse } from "@/lib/definitions";
-import api from "@/oneentry";
 import { redirect } from "next/navigation";
 import { IAuthPostBody } from "oneentry/dist/auth-provider/authProvidersInterfaces";
 import { cookies } from "next/headers";
+import { getApiInstance } from "@/oneentry";
 
 export default async function loginAction(prevState: any, formData: FormData) {
   const account = formData.get("account") as string;
   const password = formData.get("password") as string;
+  const apiInstance = await getApiInstance();
 
   if (!account) {
     return { message: "Please enter your email address" };
@@ -32,7 +33,7 @@ export default async function loginAction(prevState: any, formData: FormData) {
       ],
     };
 
-    const authRes = await api.AuthProvider.auth("signup", data);
+    const authRes = await apiInstance?.AuthProvider.auth("signup", data);
 
     if (!authRes?.userIdentifier) {
       const error = authRes as unknown as IErroredResponse;

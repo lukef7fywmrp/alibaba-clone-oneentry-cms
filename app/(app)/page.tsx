@@ -1,7 +1,6 @@
 import getSession from "@/actions/getSession";
 import Image from "next/image";
 import banner from "@/app/banner.png";
-import api from "@/oneentry";
 import CatalogPages from "@/components/CatalogPages";
 import CatalogHeader from "@/components/CatalogHeader";
 import { Suspense } from "react";

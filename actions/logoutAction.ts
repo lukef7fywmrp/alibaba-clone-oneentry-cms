@@ -1,6 +1,6 @@
 "use server";
 
-import api from "@/oneentry";
+import { getApiInstance } from "@/oneentry";
 import { cookies } from "next/headers";
 
 interface IErroredResponse {
@@ -13,6 +13,7 @@ interface IErroredResponse {
 export default async function logoutAction(prevState: any, formData: FormData) {
   const refreshToken = cookies().get("refresh_token")?.value;
   const accessToken = cookies().get("access_token")?.value;
+  const apiInstance = await getApiInstance();
 
   if (!refreshToken || !accessToken) {
     return {
@@ -21,10 +22,9 @@ export default async function logoutAction(prevState: any, formData: FormData) {
   }
 
   try {
-    const logoutRes = await api.AuthProvider.setAccessToken(accessToken).logout(
-      "signup",
-      refreshToken
-    );
+    const logoutRes = await apiInstance?.AuthProvider.setAccessToken(
+      accessToken
+    ).logout("signup", refreshToken);
 
     if (typeof logoutRes !== "boolean") {
       const error = logoutRes as unknown as IErroredResponse;
