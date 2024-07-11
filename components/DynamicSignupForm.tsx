@@ -1,16 +1,26 @@
 "use client";
 
 import signupAction from "@/actions/signupAction";
+import { useToastOnStateChange } from "@/hooks/useToastOnStateChange";
+import getInputType from "@/lib/getInputType";
+import Link from "next/link";
+import { ISignUpEntity } from "oneentry/dist/auth-provider/authProvidersInterfaces";
 import { IAttributes } from "oneentry/dist/base/utils";
 import { IFormsEntity } from "oneentry/dist/forms/formsInterfaces";
 import { useFormState } from "react-dom";
 import SubmitButton from "./SubmitButton";
-import { buttonVariants } from "./ui/button";
-import getInputType from "@/lib/getInputType";
+import { Button, buttonVariants } from "./ui/button";
 
 const initialState = {
   message: "",
 };
+
+// Type guard: check if the state has a message property
+function hasMessage(
+  state?: ISignUpEntity | { message: any }
+): state is { message: any } {
+  return (state as any).message !== undefined;
+}
 
 function DynamicSignupForm({
   formEntity,
@@ -18,6 +28,19 @@ function DynamicSignupForm({
   formEntity: IFormsEntity | undefined;
 }) {
   const [state, formAction] = useFormState(signupAction, initialState);
+
+  useToastOnStateChange({
+    message: !hasMessage(state) ? "Sign up successful" : undefined,
+    success: true,
+    data: {
+      action: (
+        <Button asChild className="rounded ml-4">
+          <Link href="/login">Log in</Link>
+        </Button>
+      ),
+      className: "w-fit",
+    },
+  });
 
   return (
     <form action={formAction} className="space-y-4 w-full -mt-20">
@@ -43,9 +66,10 @@ function DynamicSignupForm({
       ))}
 
       <div className=" ml-[120px]">
-        {state.message && (
+        {hasMessage(state) && (
           <p className="text-[#e52828] text-xs mb-4">{state.message}</p>
         )}
+
         <SubmitButton
           className={buttonVariants({
             className:

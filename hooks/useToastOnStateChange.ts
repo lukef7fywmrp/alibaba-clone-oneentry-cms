@@ -1,16 +1,22 @@
 import { useEffect } from "react";
-import { toast } from "sonner";
+import { ExternalToast, toast } from "sonner";
 
 export function useToastOnStateChange(
   state:
     | {
-        message: string;
+        message?: string;
+        success?: boolean;
+        data?: ExternalToast;
       }
     | undefined
 ) {
   useEffect(() => {
     if (state?.message) {
-      toast.error(state.message);
+      if (state.success) {
+        toast.success(state.message, state.data);
+      } else {
+        toast.error(state.message, state.data);
+      }
     }
-  }, [state?.message]);
+  }, [state?.message, state?.success, state?.data]);
 }

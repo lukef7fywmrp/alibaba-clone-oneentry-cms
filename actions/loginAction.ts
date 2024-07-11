@@ -51,8 +51,12 @@ export default async function loginAction(prevState: any, formData: FormData) {
     });
 
     cookies().set("user_identifier", authRes.userIdentifier);
-  } catch (error) {
+  } catch (error: any) {
     console.error(error);
+    if (error?.statusCode === 401) {
+      return { message: error?.message };
+    }
+
     throw new Error("Failed to login. Please try again.");
   }
 

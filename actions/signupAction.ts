@@ -1,13 +1,12 @@
 "use server";
 
-import { IErroredResponse } from "@/lib/definitions";
 import { getApiInstance } from "@/oneentry";
-import { redirect } from "next/navigation";
 import { ISignUpData } from "oneentry/dist/auth-provider/authProvidersInterfaces";
 
 export default async function signupAction(prevState: any, formData: FormData) {
   const email = formData.get("email") as string;
   const password = formData.get("password") as string;
+  const fullName = formData.get("fullname") as string;
   const apiInstance = await getApiInstance();
 
   if (!email) {
@@ -16,6 +15,10 @@ export default async function signupAction(prevState: any, formData: FormData) {
 
   if (!password) {
     return { message: "Set the login password" };
+  }
+
+  if (!fullName) {
+    return { message: "Please enter your full name" };
   }
 
   try {
@@ -30,6 +33,10 @@ export default async function signupAction(prevState: any, formData: FormData) {
           marker: "password",
           value: password,
         },
+        {
+          marker: "fullname",
+          value: fullName,
+        },
       ],
       formData: [
         {
@@ -42,6 +49,11 @@ export default async function signupAction(prevState: any, formData: FormData) {
           value: password,
           type: "string",
         },
+        {
+          marker: "fullname",
+          value: fullName,
+          type: "string",
+        },
       ],
       notificationData: {
         email: email,
@@ -52,16 +64,13 @@ export default async function signupAction(prevState: any, formData: FormData) {
 
     const formDataRes = await apiInstance?.AuthProvider.signUp("signup", data);
 
-    if (!formDataRes?.id) {
-      const error = formDataRes as unknown as IErroredResponse;
-      return {
-        message: error.message,
-      };
-    }
-  } catch (error) {
+    return formDataRes;
+  } catch (error: any) {
     console.error(error);
-    throw new Error("Failed to sign up. Please try again.");
-  }
+    if (error?.statusCode === 400) {
+      return { message: error?.message };
+    }
 
-  redirect("/");
+    throw new Error("Failed to signup. Please try again.");
+  }
 }

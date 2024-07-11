@@ -16,9 +16,11 @@ import SignupButton from "./SignupButton";
 import { Button } from "./ui/button";
 import LogoutForm from "./LogoutForm";
 import fetchUserSession from "@/actions/fetchUserSession";
+import CartLink from "./CartLink";
 
 async function Header() {
   const user = await fetchUserSession();
+
   return (
     <header className="w-full bg-white py-4 px-5 md:px-8 flex items-center justify-between text-[#333]">
       <Link href={"/"}>
@@ -61,7 +63,8 @@ async function Header() {
                   sideOffset={10}
                 >
                   <p className="text-[#222] text-sm font-semibold p-4">
-                    Hi, Javier
+                    Hi,{" "}
+                    {user.formData.find((f) => f.marker === "fullname")?.value}
                   </p>
 
                   <hr className="border-[#ddd] w-[90%] mx-auto" />
@@ -122,10 +125,7 @@ async function Header() {
                 </HoverCardContent>
               </HoverCard>
 
-              <Link href={"/cart"} className="headerLink">
-                <ShoppingCart size={24} />
-                <span className="hover:text-primary">Cart</span>
-              </Link>
+              <CartLink />
             </>
           )}
         </div>

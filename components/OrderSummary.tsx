@@ -10,9 +10,10 @@ import { Button } from "./ui/button";
 import initiateOrderAndPaymentProcess from "@/actions/initiateOrderAndPaymentProcess";
 
 function OrderSummary() {
-  const { items, getItemSubtotal } = useCartStore((state) => ({
+  const { items, getItemSubtotal, getTotalItems } = useCartStore((state) => ({
     items: state.items,
     getItemSubtotal: state.getItemSubtotal,
+    getTotalItems: state.getTotalItems,
   }));
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
@@ -40,7 +41,7 @@ function OrderSummary() {
     <div className="text-[#222] divide-y divide-[#eee] bg-white py-9 px-8 shadow-[0px_4px_20px_0px_rgba(0,0,0,0.06)] rounded-[8px] min-w-[384px]">
       <div className="pb-4 space-y-5">
         <p className="text-lg font-bold">
-          Order Summary ({items.length} items)
+          Order Summary ({getTotalItems()} items)
         </p>
         <div className="flex items-center justify-between">
           <p>Item subtotal</p>
