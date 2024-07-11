@@ -10,9 +10,9 @@ function CancelOrderPage() {
           Order Canceled
         </h1>
         <p className="mt-4 text-muted-foreground">
-          We're sorry, but your order has been canceled due to an issue with
-          payment processing. Please try again or contact our support team if
-          you need assistance.
+          We&apos;re sorry, but your order has been canceled due to an issue
+          with payment processing. Please try again or contact our support team
+          if you need assistance.
         </p>
         <div className="mt-6">
           <Link
