@@ -8,14 +8,7 @@ import { ISignUpData } from "oneentry/dist/auth-provider/authProvidersInterfaces
 export default async function signupAction(prevState: any, formData: FormData) {
   const email = formData.get("email") as string;
   const password = formData.get("password") as string;
-  // const confirmPassword = formData.get("confirmpassword") as string;
   const apiInstance = await getApiInstance();
-
-  // if (password !== confirmPassword) {
-  //   return {
-  //     message: "The two passwords do not match. Please enter them again.",
-  //   };
-  // }
 
   if (!email) {
     return { message: "Please enter your email address" };
@@ -37,10 +30,6 @@ export default async function signupAction(prevState: any, formData: FormData) {
           marker: "password",
           value: password,
         },
-        // {
-        //   marker: "confirmpassword",
-        //   value: confirmPassword,
-        // },
       ],
       formData: [
         {
@@ -53,11 +42,6 @@ export default async function signupAction(prevState: any, formData: FormData) {
           value: password,
           type: "string",
         },
-        // {
-        //   marker: "confirmpassword",
-        //   value: confirmPassword,
-        //   type: "string",
-        // },
       ],
       notificationData: {
         email: email,

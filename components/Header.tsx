@@ -38,7 +38,7 @@ async function Header() {
                   <User size={20} />
                   Sign in
                 </HoverCardTrigger>
-                <HoverCardContent className="">
+                <HoverCardContent className="space-y-2">
                   <p className="text-[#222] text-sm font-semibold">
                     Welcome to Alibaba.com!
                   </p>

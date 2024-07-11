@@ -15,6 +15,7 @@ interface CartState {
   addItem: (item: CartItem) => void;
   removeItem: (id: number) => void;
   getItemSubtotal: () => number;
+  clearItems: () => void;
 }
 
 export const useCartStore = create(
@@ -62,6 +63,7 @@ export const useCartStore = create(
           0
         );
       },
+      clearItems: () => set(() => ({ items: [] })),
     }),
     { name: "cart-storage" }
   )

@@ -14,7 +14,7 @@ async function PopularProductBanner({ slug }: { slug: string }) {
         </p>
 
         <p className="leading-[22px] mt-5">
-          Ranked based on a comprehensive analysis of buyers' interactions
+          Ranked based on a comprehensive analysis of buyer&apos;s interactions
           including communication, inquiries, and orders in the past 90 days.
           Updated daily.
         </p>
